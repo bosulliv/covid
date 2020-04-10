@@ -37,7 +37,7 @@ I recommend conda to manage the libraries and create an environment for this rep
 (covid) $ 
 </pre>
 
-Then run the notebook:
+Then run the jupyter to explore the notebooks:
 <pre>
 (covid) $ jupyter notebook
 </pre>
