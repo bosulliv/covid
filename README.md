@@ -23,7 +23,6 @@ Individual countries are modeled and ploted here:
 ## Download and Run
 Clone the code:
 <pre>
-$ cd <your code directory>
 $ git clone git@github.com:bosulliv/covid.git
 $ cd covid
 </pre>
@@ -33,7 +32,7 @@ I recommend conda to manage the libraries and create an environment for this rep
 [Install miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html)
 
 <pre>
-(base) $ conda env create -n covid -f env.yml
+(base) $ conda create --name covid --file spec-file.txt
 (base) $ conda activate covid
 (covid) $ 
 </pre>
