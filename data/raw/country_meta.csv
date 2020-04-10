@@ -1,11 +1,11 @@
 country,province,start_str,peak_guess,duration_guess,population,iata_2
-United Kingdom,True,2020-02-26,180000,98,66,gb
+United Kingdom,True,2020-02-26,180000,100,66,gb
 Australia,True,2020-02-27,15000,90,25,au
 Denmark,True,2020-02-19,15000,90,5.8,dk
 France,True,2020-02-20,150000,90,67,fr
-Germany,False,2020-02-24,150000,90,80,de
+Germany,False,2020-02-17,160000,94,80,de
 Italy,False,2020-02-10,180000,100,60,it
 Netherlands,True,2020-02-27,15000,90,17,nd
 Spain,False,2020-02-23,170000,90,47,es
 Sweden,False,2020-02-05,15000,90,10,se
-US,False,2020-02-23,800000,98,327,us
+US,False,2020-02-23,1200000,100,327,us
