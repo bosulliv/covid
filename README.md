@@ -5,7 +5,7 @@ Explore the covid data. Fit simple models. Update as daily figures arrive, and r
 ## Country Models
 Individual countries are modeled and ploted here:
 
-* [UK](notebooks/UK.ipynb)
+* [UK](notebooks/uk.ipynb)
 * [US](notebooks/US.ipynb)
 * [Italy](notebooks/Italy.ipynb)
 
