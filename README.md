@@ -4,6 +4,8 @@ Explore the covid data. Fit simple models. Update as daily figures arrive, and r
 
 [This notebook](notebooks/covid.ipynb) shows graphs and models.
 
+[This notebook](notebooks/uk.ipynb) shows just the UK.
+
 ## Project Structure
 
 <pre>
