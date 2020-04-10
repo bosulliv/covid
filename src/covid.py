@@ -82,12 +82,9 @@ def find_best_parameters(df,
                              'duration': [],
                              'score': []})
     score_df.set_index(['peak', 'duration'], inplace=True)
-
-    
     peak_grid = range(int(0.5*peak_guess),
                       int(1.5*peak_guess),
                       int(0.025*peak_guess))
-
     duration_grid = range(duration_guess-4,
                           duration_guess+3,
                           1)
