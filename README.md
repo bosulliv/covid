@@ -1,10 +1,16 @@
 # Covid
 ## Overview
-Explore the covid data. Fit simple models. Update as daily figures arrive, and reflect on the changes necessary to update the fit.
+Explore the covid data. Fit simple models. Update as daily figures arrive, and reflect on the changes necessary to improve the model fit.
 
-[This notebook](notebooks/covid.ipynb) shows graphs and models for a number of countries.
+## Country Models
+Individual countries are modeled and ploted here:
 
-[This notebook](notebooks/uk.ipynb) shows just the UK.
+* [UK](notebooks/uk.ipynb)
+* [US](notebooks/us.ipynb)
+* [Italy](notebooks/italy.ipynb)
+
+[This notebook](notebooks/covid.ipynb) is the original notebook, it's a bit messy, but has more countries at present. It is soon to be depreciated as the code has been refactored and moved into a module.
+
 
 ## Project Structure
 
