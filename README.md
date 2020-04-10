@@ -5,9 +5,9 @@ Explore the covid data. Fit simple models. Update as daily figures arrive, and r
 ## Country Models
 Individual countries are modeled and ploted here:
 
-* [UK](notebooks/uk.ipynb)
-* [US](notebooks/us.ipynb)
-* [Italy](notebooks/italy.ipynb)
+* [UK](notebooks/UK.ipynb)
+* [US](notebooks/US.ipynb)
+* [Italy](notebooks/Italy.ipynb)
 
 [This notebook](notebooks/covid.ipynb) is the original notebook, it's a bit messy, but has more countries at present. It is soon to be depreciated as the code has been refactored and moved into a module.
 
