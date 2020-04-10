@@ -13,10 +13,32 @@ Individual countries are modeled and ploted here:
 
 
 ## Project Structure
-
 <pre>
     /data      - virus time series, country metadata, and model paramater values
     /notebooks - notebooks
     /src       - modules
     /test      - unit tests
+</pre>
+
+## Download and Run
+Clone the code:
+<pre>
+$ cd <your code directory>
+$ git clone git@github.com:bosulliv/covid.git
+$ cd covid
+</pre>
+
+I recommend conda to manage the libraries and create an environment for this repo:
+
+[Install miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html)
+
+<pre>
+(base) $ conda env create -n covid -f env.yml
+(base) $ conda activate covid
+(covid) $ 
+</pre>
+
+Then run the notebook:
+<pre>
+(covid) $ jupyter notebook
 </pre>
