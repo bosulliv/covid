@@ -9,7 +9,8 @@ Explore the covid data. Fit simple models. Update as daily figures arrive, and r
 ## Project Structure
 
 <pre>
-    /data
-    /notebooks
-    /src
+    /data      - virus time series, country metadata, and model paramater values
+    /notebooks - notebooks
+    /src       - modules
+    /test      - unit tests
 </pre>
