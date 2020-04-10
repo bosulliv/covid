@@ -72,19 +72,20 @@ def sig_pred_case(i, duration=70, peak=80000, spread=16):
 
 
 def find_best_parameters(df,
-                         peak_guess=15000,
-                         duration_guess=90,
+                         start_str,
+                         peak_guess,
+                         duration_guess,
                          spread=16,
-                         strategy='rmse',
-                         start_str='2020-02-23'):
+                         strategy='rmse'):
     score_df = pd.DataFrame({'peak': [],
                              'duration': [],
                              'score': []})
     score_df.set_index(['peak', 'duration'], inplace=True)
 
-    peak_grid = range(round(0.5*peak_guess),
-                      round(1.5*peak_guess),
-                      round(0.025*peak_guess))
+    
+    peak_grid = range(int(0.5*peak_guess),
+                      int(1.5*peak_guess),
+                      int(0.025*peak_guess))
 
     duration_grid = range(duration_guess-4,
                           duration_guess+3,
@@ -136,7 +137,7 @@ class CovidCountry():
 
     def __init__(self, country='United Kingdom',
                  province=False, verbose=False,
-                 filepath='./data/raw', fixes={}):
+                 filepath='./data/raw/', fixes={}):
         """ Init - see class doc for details """
         self.verbose = verbose
         self.country = country
@@ -253,9 +254,11 @@ class CovidCountry():
         """
         self.start_str = start_str
         values = find_best_parameters(self.country_df['Cases'],
-                                      peak_guess=peak_guess,
                                       start_str=start_str,
-                                      duration_guess=duration_guess)
+                                      peak_guess=peak_guess,
+                                      duration_guess=duration_guess,
+                                      strategy='rmse',
+                                      spread=16)
         self.best_peak, self.best_duration, self.best_score = values
 
     def predict(self):
