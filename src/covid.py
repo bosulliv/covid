@@ -47,7 +47,8 @@ def sig_pred_case(i, duration=70, peak=80000, spread=16):
     Parameters
     ----------
     i : int
-        This is the index, or the days since the start of an outbreak
+        This is the day since the start of an outbreak. Return the
+        case count at this index.
 
     duration: int
         This is the tail to tail duration of the outbreak.
@@ -279,7 +280,7 @@ class CovidCountry():
         conc_df.columns = ['Actual', 'Prediction']
         self.pred_df = conc_df
         self._calc_r2()
-        return pred_df
+        return conc_df
 
     def _calc_r2(self):
         from sklearn.metrics import r2_score
