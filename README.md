@@ -27,9 +27,7 @@ $ git clone git@github.com:bosulliv/covid.git
 $ cd covid
 </pre>
 
-I recommend conda to manage the libraries and create an environment for this repo:
-
-[Install miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html)
+I recommend conda to manage the libraries and create an environment for this repo.  [Install miniconda](https://docs.conda.io/projects/continuumio-conda/en/latest/user-guide/install/index.html) if you don't have conda yet. It's a minimal install, and this repo uses a small number of libraries.
 
 <pre>
 (base) $ conda create --name covid --file spec-file.txt
