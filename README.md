@@ -40,3 +40,6 @@ Then run jupyter to explore the notebooks and raw data files:
 <pre>
 (covid) $ jupyter notebook
 </pre>
+
+## The Maths
+This is curve fitting, rather than virus transmission simulation. So the closer to peak, the easier it is to be accurate. Fitting a sigmoid curve works reasonably well as a country climbs towards a daily peak. But it fits badly when the peak passes, especially if a country has been effective in reducting transmission. In that case the curve is skewed, where the climb is steeper than the descent. This fits better with a function that shape of a gamma distribution function.
