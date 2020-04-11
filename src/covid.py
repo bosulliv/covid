@@ -1,3 +1,4 @@
+from math import gamma
 from urllib.request import urlretrieve
 import numpy as np
 import matplotlib.pyplot as plt
@@ -41,6 +42,43 @@ def loss_function(series, strategy='rmse'):
         score = np.sum(score)**0.5
     return score
 
+def gamma_pdf(x, k=10, theta=0.75):
+    """ A function with the same shape as the Gamma PDF. It returns y
+    for a given x, and the shape parameters described.
+    
+    Parameters
+    ----------
+    x : int
+        The x position to return y=gamma_pdf(y)
+        
+    k : float
+        The mean
+        
+    theta : float
+        The standard deviation
+    """
+    nearly_zero = 0.1**100
+    if x == 0:
+        x = nearly_zero
+    alpha = k
+    beta = 1/theta
+    numer = beta**alpha
+    numer *= x**(alpha-1)
+    numer *= np.exp(-1*beta*x)
+    denom = gamma(alpha)
+    return numer/denom
+
+def gamma_pred_case(i, theta=0.75, duration=90, peak=160000, spread=20):
+    """ Return the predicted total cases for day 'i' using a gamma
+    distributon function with the given parameters. """
+    x_final = (i*spread)/duration
+    case_total = 0
+    for x in np.linspace(0, x_final, i):
+        k = spread/(2*theta)
+        scale = peak*spread/duration
+        y = gamma_pdf(x=x, k=k, theta=theta)
+        case_total += y*scale
+    return case_total
 
 def sig_pred_case(i, duration=70, peak=80000, spread=16):
     """ Return the value of the sigmoid function at the point i.
@@ -72,6 +110,46 @@ def sig_pred_case(i, duration=70, peak=80000, spread=16):
     sig_num = numer/denom
     return sig_num
 
+def find_best_gamma_param(df,
+                          start_str,
+                          peak_guess,
+                          duration_guess,
+                          spread=16,
+                          strategy='rmse'):
+    score_df = pd.DataFrame({'peak': [],
+                             'duration': [],
+                             'score': []})
+    score_df.set_index(['peak', 'duration'], inplace=True)
+    peak_grid = range(int(0.5*peak_guess),
+                      int(1.5*peak_guess),
+                      int(0.025*peak_guess))
+    duration_grid = range(duration_guess-4,
+                          duration_guess+3,
+                          1)
+    theta_grid = np.linrange(0.25, 1.75, 20)
+    for peak in peak_grid:
+        for duration in duration_grid:
+            for theta in theta_grid:
+                gamma_case_lst = []
+                for i in range(0, duration):
+                    value = gamma_pred_case(i, duration=duration,
+                                            theta=theta, peak=peak,
+                                            spread=spread)
+                    gamma_case_lst.append(value)
+
+                current_df = pd.DataFrame(gamma_case_lst,
+                                          index=pd.date_range(start_str,
+                                                              periods=duration))
+
+                conc_df = pd.concat([df[start_str:], current_df], axis=1)
+                conc_df.columns = ['Actual', 'Prediction']
+                conc_df['residual'] = conc_df['Actual'] - conc_df['Prediction']
+                score = loss_function(conc_df['residual'], strategy=strategy)
+                score_df.loc[(peak, duration, theta), 'score'] = score
+
+    best_peak, best_duration, best_theta = score_df['score'].idxmin()
+    best_score = score_df.loc[(best_peak, best_duration, best_theta), 'score']
+    return int(best_peak), int(best_duration), best_theta, best_score
 
 def find_best_parameters(df,
                          start_str,
@@ -94,6 +172,7 @@ def find_best_parameters(df,
             sig_case_lst = []
             for i in range(0, duration):
                 value = sig_pred_case(i, duration, peak, spread=spread)
+                value = gamma_pred_case(i, duration, peak, spread=spread)
                 sig_case_lst.append(value)
 
             current_df = pd.DataFrame(sig_case_lst,
