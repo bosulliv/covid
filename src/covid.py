@@ -73,9 +73,9 @@ def gamma_pred_case(i, theta=0.75, duration=90, peak=160000, spread=20):
     distributon function with the given parameters. """
     x_final = (i*spread)/duration
     case_total = 0
+    scale = peak*spread/duration
     for x in np.linspace(0, x_final, i):
         k = spread/(2*theta)
-        scale = peak*spread/duration
         y = gamma_pdf(x=x, k=k, theta=theta)
         case_total += y*scale
     return case_total
@@ -114,26 +114,29 @@ def find_best_gamma_param(df,
                           start_str,
                           peak_guess,
                           duration_guess,
-                          spread=16,
+                          spread=20,
                           strategy='rmse'):
     score_df = pd.DataFrame({'peak': [],
                              'duration': [],
+                             'theta': [],
                              'score': []})
-    score_df.set_index(['peak', 'duration'], inplace=True)
+    score_df.set_index(['peak', 'duration', 'theta'], inplace=True)
     peak_grid = range(int(0.5*peak_guess),
                       int(1.5*peak_guess),
-                      int(0.025*peak_guess))
+                      int(0.125*peak_guess))
     duration_grid = range(duration_guess-4,
                           duration_guess+3,
                           1)
-    theta_grid = np.linrange(0.25, 1.75, 20)
+    theta_grid = np.linspace(0.25, 1.75, 20)
     for peak in peak_grid:
         for duration in duration_grid:
             for theta in theta_grid:
                 gamma_case_lst = []
                 for i in range(0, duration):
-                    value = gamma_pred_case(i, duration=duration,
-                                            theta=theta, peak=peak,
+                    value = gamma_pred_case(i,
+                                            theta=theta,
+                                            duration=duration,
+                                            peak=peak,
                                             spread=spread)
                     gamma_case_lst.append(value)
 
@@ -164,15 +167,12 @@ def find_best_parameters(df,
     peak_grid = range(int(0.5*peak_guess),
                       int(1.5*peak_guess),
                       int(0.025*peak_guess))
-    duration_grid = range(duration_guess-4,
-                          duration_guess+3,
-                          1)
+    duration_grid = range(duration_guess-4, duration_guess+3)
     for peak in peak_grid:
         for duration in duration_grid:
             sig_case_lst = []
             for i in range(0, duration):
                 value = sig_pred_case(i, duration, peak, spread=spread)
-                value = gamma_pred_case(i, duration, peak, spread=spread)
                 sig_case_lst.append(value)
 
             current_df = pd.DataFrame(sig_case_lst,
@@ -232,8 +232,10 @@ class CovidCountry():
         self.tidy_df = pd.DataFrame()
         self.country_df = pd.DataFrame()
         self.pred_df = pd.DataFrame()
-        self.best_peak = 150000
-        self.best_duration = 90
+        self.best_peak = np.nan
+        self.best_duration = np.nan
+        self.best_theta = np.nan
+        self.curve = 'gamma'
         self.r2 = np.nan
         self.start_str = ''
 
@@ -261,6 +263,7 @@ class CovidCountry():
         self.peak_guess = meta_df.loc[self.country, 'peak_guess']
         self.population = meta_df.loc[self.country, 'start_str']
         self.iata_2 = meta_df.loc[self.country, 'iata_2']
+        self.curve = meta_df.loc[self.country, 'curve']
         
     def _download(self):
         """ Download latest covid case data. """
@@ -331,6 +334,7 @@ class CovidCountry():
             raise ValueError('Too many matching entries')
 
     def fit(self,
+            curve='gamma',
             start_str=None,
             duration_guess=None,
             peak_guess=None):
@@ -356,13 +360,24 @@ class CovidCountry():
             self.duration_guess = duration_guess
         if peak_guess:
             self.peak_guess = peak_guess
-        values = find_best_parameters(self.country_df['Cases'],
-                                      start_str=self.start_str,
-                                      peak_guess=self.peak_guess,
-                                      duration_guess=self.duration_guess,
-                                      strategy='rmse',
-                                      spread=16)
-        self.best_peak, self.best_duration, self.best_score = values
+        if curve:
+            self.curve = curve
+        if curve == 'sigmoid':
+            values = find_best_parameters(self.country_df['Cases'],
+                                          start_str=self.start_str,
+                                          peak_guess=self.peak_guess,
+                                          duration_guess=self.duration_guess,
+                                          strategy='rmse',
+                                          spread=16)
+            self.best_peak, self.best_duration, self.best_score = values
+        elif curve == 'gamma':
+            values = find_best_gamma_param(self.country_df['Cases'],
+                                           start_str=self.start_str,
+                                           peak_guess=self.peak_guess,
+                                           duration_guess=self.duration_guess,
+                                           strategy='rmse',
+                                           spread=16)
+            self.best_peak, self.best_duration, self.best_theta, self.best_score = values
 
     def predict(self):
         """ Make predictions on model """
@@ -370,12 +385,19 @@ class CovidCountry():
         duration = self.best_duration
         peak = self.best_peak
         start_str = self.start_str
-        for i in range(0, duration):
-            pred_lst.append(sig_pred_case(i, duration, peak))
-
-        pred_df = pd.DataFrame(pred_lst,
-                               index=pd.date_range(start_str,
-                                                   periods=duration))
+        theta = self.best_theta
+        if self.curve == 'sigmoid':
+            for i in range(0, duration):
+                pred_lst.append(sig_pred_case(i, duration, peak))
+            pred_df = pd.DataFrame(pred_lst,
+                                   index=pd.date_range(start_str,
+                                                       periods=duration))
+        elif self.curve == 'gamma':
+            for i in range(0, duration):
+                pred_lst.append(gamma_pred_case(i, theta, duration, peak))
+            pred_df = pd.DataFrame(pred_lst,
+                                   index=pd.date_range(start_str,
+                                                       periods=duration))
 
         actual_df = self.country_df.loc[start_str:, 'Cases']
         conc_df = pd.concat([actual_df, pred_df], axis=1)
