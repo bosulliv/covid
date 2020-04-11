@@ -431,12 +431,16 @@ class CovidCountry():
         fig, ax = plt.subplots(1, 1, figsize=(12, 8))
 
         df = self.pred_df[start:stop]
-        sns.lineplot(data=df,
-                     ax=ax,
-                     marker='o')
+        ax.plot(df['Actual'], marker='o')
+        ax.plot(df['Prediction'], linestyle='-.')
+        #sns.lineplot(data=df,
+        #             ax=ax,
+        #             marker='o')
         title_str = f'{country}\nStart: {start_str}'
         title_str += f'\nDuration: {best_duration:.0f}'
         title_str += f'\nPeak: {best_peak:.0f}\nR-squared: {r2:.3f}'
+        if self.curve == 'gamma':
+            title_str += f'\nTheta: {self.best_theta:.3f}'
         plt.title(title_str)
         plt.tight_layout()
         plt.show()
@@ -445,7 +449,8 @@ class CovidCountry():
         country = self.country
         fig, ax = plt.subplots(1, 1, figsize=(12, 7))
         df = self.pred_df[start:stop].diff()
-        df.plot(kind='bar', ax=ax)
+        ax.plot(df['Actual'], marker='o')
+        ax.plot(df['Prediction'], linestyle='-.')
         plt.title(f'{country}\nEstimated Daily new cases')
         plt.tight_layout()
         plt.show()
