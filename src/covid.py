@@ -134,13 +134,14 @@ class CovidCountry():
         The downloaded, processed and corrected data.
     """
 
-    def __init__(self, country='United Kingdom',
-                 province=False, verbose=False,
+    def __init__(self, country='United Kingdom', verbose=False,
                  filepath='./data/raw/', fixes={}):
         """ Init - see class doc for details """
         self.verbose = verbose
         self.country = country
-        self.province = province
+        self.province = False
+        self.population = np.nan
+        self.iata_2 = ''
         self.url = 'https://raw.githubusercontent.com/'
         self.url += 'CSSEGISandData/COVID-19/master/'
         self.url += 'csse_covid_19_data/csse_covid_19_time_series/'
@@ -159,6 +160,7 @@ class CovidCountry():
 
     def load(self, today=None):
         """ Download the latest data """
+        self._get_meta_data()
         self._download()
         self._engineer()
         self._filter()
@@ -166,6 +168,21 @@ class CovidCountry():
         if today:
             self._add_today(today)
 
+    def _get_meta_data(self):
+        """ Automatically load the given countries meta_data """
+        filename = self.path + 'country_meta.csv'
+        meta_df = pd.read_csv(filename, index_col='country')
+        try:
+            meta_df.loc[self.country,:]
+        except:
+            raise ValueError(f'No data for country {self.country}')
+        self.start_str = meta_df.loc[self.country, 'start_str']
+        self.province = meta_df.loc[self.country, 'province']
+        self.duration_guess = meta_df.loc[self.country, 'duration_guess']
+        self.peak_guess = meta_df.loc[self.country, 'peak_guess']
+        self.population = meta_df.loc[self.country, 'start_str']
+        self.iata_2 = meta_df.loc[self.country, 'iata_2']
+        
     def _download(self):
         """ Download latest covid case data. """
         urlretrieve(self.url, self.path+self.file)
@@ -234,7 +251,10 @@ class CovidCountry():
         else:
             raise ValueError('Too many matching entries')
 
-    def fit(self, start_str, duration_guess, peak_guess):
+    def fit(self,
+            start_str=None,
+            duration_guess=None,
+            peak_guess=None):
         """
         Fit model to the actual data so far. It does this by fitting
         a sigmoid curve to the total cases using grid search around
@@ -251,11 +271,16 @@ class CovidCountry():
         guess_peak : int, e.g. 150000
             Guess of the total cases at the end of the outbreak.
         """
-        self.start_str = start_str
+        if start_str:
+            self.start_str = start_str
+        if duration_guess:
+            self.duration_guess = duration_guess
+        if peak_guess:
+            self.peak_guess = peak_guess
         values = find_best_parameters(self.country_df['Cases'],
-                                      start_str=start_str,
-                                      peak_guess=peak_guess,
-                                      duration_guess=duration_guess,
+                                      start_str=self.start_str,
+                                      peak_guess=self.peak_guess,
+                                      duration_guess=self.duration_guess,
                                       strategy='rmse',
                                       spread=16)
         self.best_peak, self.best_duration, self.best_score = values
@@ -324,10 +349,10 @@ class CovidCountry():
         plt.tight_layout()
         plt.show()
 
-    def save(self, filepath, iata_2):
+    def save(self):
         """ Save the prediction file """
         suffix = '_df.csv'
-        filename = filepath + iata_2 + suffix
+        filename = self.path + self.iata_2 + suffix
         self.pred_df.to_csv(filename)
 
 
@@ -338,11 +363,8 @@ if __name__ == '__main__':
              '2020-03-19': 3269,
              }
     c = CovidCountry(country='United Kingdom',
-                     province=True,
                      fixes=fixes)
-    c.load(today=70722)
-    c.fit(start_str='2020-02-26',
-          duration_guess=90,
-          peak_guess=130000)
+    c.load(today=80000)
+    c.fit()
     c.predict()
     c.display()

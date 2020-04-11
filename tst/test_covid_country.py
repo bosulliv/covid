@@ -17,7 +17,6 @@ class CovidCountryTest(unittest.TestCase):
                     '2020-03-19': 3269}
 
         self.uk = CovidCountry(country='United Kingdom',
-                               province=True,
                                filepath='./data/raw/',
                                fixes=fix_data)
         self.uk.load()
