@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 sns.set_context('talk')
+sns.set_style('whitegrid')
 
 
 def loss_function(series, strategy='rmse'):
@@ -180,7 +181,7 @@ class CovidCountry():
 
         if df.shape[1] != col_count:
             raise ValueError('More columns than expected')
-        if df.shape[0] != 263:
+        if df.shape[0] != 264:
             raise ValueError(f'More rows than expected. {df.shape}')
         self.raw_df = df
 
@@ -277,7 +278,7 @@ class CovidCountry():
         conc_df.columns = ['Actual', 'Prediction']
         self.pred_df = conc_df
         self._calc_r2()
-        return conc_df
+        return self.pred_df
 
     def _calc_r2(self):
         from sklearn.metrics import r2_score
@@ -322,6 +323,12 @@ class CovidCountry():
         plt.title(f'{country}\nEstimated Daily new cases')
         plt.tight_layout()
         plt.show()
+
+    def save(self, filepath, iata_2):
+        """ Save the prediction file """
+        suffix = '_df.csv'
+        filename = filepath + iata_2 + suffix
+        self.pred_df.to_csv(filename)
 
 
 if __name__ == '__main__':
