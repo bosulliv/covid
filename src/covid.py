@@ -91,7 +91,7 @@ class CovidCountry():
         urlretrieve(self.url, self.path+self.file)
         # sanity check data size - changes need to be checked
         df = pd.read_csv(self.path+self.file)
-        col_count = pd.Timestamp.now().now() - pd.to_datetime('2020-01-22')
+        col_count = pd.Timestamp.now() - pd.to_datetime('2020-01-22')
         col_count /= pd.Timedelta('1D')
         col_count += 4
         col_count = np.floor(col_count)
