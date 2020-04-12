@@ -223,6 +223,7 @@ class CovidCountry():
         actual_df = self.country_df.loc[start_str:, 'Cases']
         conc_df = pd.concat([actual_df, pred_df], axis=1)
         conc_df.columns = ['Actual', 'Prediction']
+        conc_df.index.rename('Date', inplace=True)
         self.pred_df = conc_df
         self._calc_r2()
         return self.pred_df
