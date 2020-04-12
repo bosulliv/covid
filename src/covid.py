@@ -294,7 +294,7 @@ if __name__ == '__main__':
              }
     c = CovidCountry(country='United Kingdom',
                      fixes=fixes)
-    c.load(today=80000)
+    c.load()
     c.fit()
     c.predict()
     c.display()

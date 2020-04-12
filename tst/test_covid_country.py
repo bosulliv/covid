@@ -19,13 +19,9 @@ class CovidCountryTest(unittest.TestCase):
                     '2020-03-19': 3269}
 
         self.uk = covid.CovidCountry(country='United Kingdom',
-                                     filepath='./data/raw/',
+                                     filepath='./data/test/',
                                      fixes=fix_data)
         self.uk.load()
-
-    def test_smoke(self):
-        """ Test unittest is setup """
-        self.assertEqual(1, 1)
 
 
 if __name__ == '__main__':
