@@ -1,196 +1,14 @@
 from math import gamma
 from urllib.request import urlretrieve
 import numpy as np
-import matplotlib.pyplot as plt
 import pandas as pd
+from .utils_gamma import find_best_gamma_param, gamma_pred_case
+from .utils_sigmoid import find_best_parameters, sig_pred_case
+import matplotlib.pyplot as plt
 import seaborn as sns
 sns.set_context('talk')
 sns.set_style('whitegrid')
 
-
-def loss_function(series, strategy='rmse'):
-    """
-    Given a Series of residuals, return a loss score.
-
-    Parameters
-    ----------
-    series : pd.Series,
-        A Pandas series of residuals.
-
-    strategy : str, default='rmse'
-        How to measure loss. RMSE, MSE, and custom functions.
-    """
-    series = series.dropna()
-    if series.shape[0] == 0:
-        score = np.nan
-    #elif abs(series.sum()) < 0.001:
-    #    print(series)
-    #    raise Exception('Zero residual sum not possible')
-    elif strategy == 'mse':
-        score = np.sum(series**2)
-    elif strategy == 'rmse':
-        score = np.sum(series**2)**0.5
-    elif strategy == 'best_fit_last':
-        # rmse - but with a final multiple which
-        # strongly biases more recent residuals
-        half = int(round(len(series)/2.0))
-        blank = np.zeros(half)
-        mult = np.linspace(1, 2, int(len(series)-half))**2
-        mult = np.concatenate([blank, mult])
-        score = series**2
-        score = np.multiply(mult, score)
-        score = np.sum(score)**0.5
-    return score
-
-def gamma_pdf(x, mu=50, theta=1):
-    """ A function with the same shape as the Gamma PDF. It returns y
-    for a given x, and the shape parameters described.
-    
-    Parameters
-    ----------
-    x : int
-        The x position to return y=gamma_pdf(y)
-        
-    mu : float
-        The mean = k * theta. In the first spread, this would be
-        roughly half the total duration. And a little sooner with skew.
-        
-    theta : float
-        The standard deviation
-    """
-    k = mu / theta
-    nearly_zero = 0.1**100
-    if x == 0:
-        x = nearly_zero
-    alpha = k
-    beta = 1/theta
-    numer = beta**alpha
-    numer *= x**(alpha-1)
-    numer *= np.exp(-1*beta*x)
-    denom = gamma(alpha)
-    return numer/denom
-
-def gamma_pred_case(i, theta=0.75, duration=90, peak=160000, spread=20):
-    """ Return the predicted total cases for day 'i' using a gamma
-    distributon function with the given parameters. """
-    x_final = (i*spread)/duration
-    case_total = 0
-    scale = peak*spread/duration
-    for x in np.linspace(0, x_final, i):
-        mu = spread/2
-        #k = spread/(2*theta)
-        y = gamma_pdf(x=x, mu=mu, theta=theta)
-        case_total += y*scale
-    return case_total
-
-def sig_pred_case(i, duration=70, peak=80000, spread=16):
-    """ Return the value of the sigmoid function at the point i.
-
-    Parameters
-    ----------
-    i : int
-        This is the day since the start of an outbreak. Return the
-        case count at this index.
-
-    duration: int
-        This is the tail to tail duration of the outbreak.
-
-    peak: int
-        This is the maximum value of sigmoid function.
-
-    spreak: int
-        This governs the limits of x inside np.exp(x) - x will vary
-        between -spread/2 and +spread/2 e.g. for spread = 16
-        the first day of outbreak will take value -8 and the last day
-        of outbreak will be +8 inside np.exp(x)
-    """
-    numer = peak
-    # exp(0) happens at 50% time of infection
-    index = i - duration/2
-    # np.exp(y) - we want y to be between +/- spread/2
-    lam = spread/duration
-    denom = (1+np.exp(-1*lam*index))
-    sig_num = numer/denom
-    return sig_num
-
-def find_best_gamma_param(df,
-                          start_str,
-                          peak_guess,
-                          duration_guess,
-                          spread=20,
-                          strategy='rmse'):
-    score_df = pd.DataFrame({'peak': [],
-                             'duration': [],
-                             'theta': [],
-                             'score': []})
-    score_df.set_index(['peak', 'duration', 'theta'], inplace=True)
-    peak_grid = np.linspace(int(0.75*peak_guess),
-                            int(1.25*peak_guess),
-                            10)
-    duration_grid = range(duration_guess-2,
-                          duration_guess+5,
-                          1)
-    theta_grid = np.linspace(0.25, 1.75, 10)
-    for peak in peak_grid:
-        for duration in duration_grid:
-            for theta in theta_grid:
-                gamma_case_lst = []
-                for i in range(0, duration):
-                    value = gamma_pred_case(i,
-                                            theta=theta,
-                                            duration=duration,
-                                            peak=peak,
-                                            spread=spread)
-                    gamma_case_lst.append(value)
-
-                current_df = pd.DataFrame(gamma_case_lst,
-                                          index=pd.date_range(start_str,
-                                                              periods=duration))
-
-                conc_df = pd.concat([df[start_str:], current_df], axis=1)
-                conc_df.columns = ['Actual', 'Prediction']
-                conc_df['residual'] = conc_df['Actual'] - conc_df['Prediction']
-                score = loss_function(conc_df['residual'], strategy=strategy)
-                score_df.loc[(peak, duration, theta), 'score'] = score
-
-    best_peak, best_duration, best_theta = score_df['score'].idxmin()
-    best_score = score_df.loc[(best_peak, best_duration, best_theta), 'score']
-    return int(best_peak), int(best_duration), best_theta, best_score
-
-def find_best_parameters(df,
-                         start_str,
-                         peak_guess,
-                         duration_guess,
-                         spread=16,
-                         strategy='rmse'):
-    score_df = pd.DataFrame({'peak': [],
-                             'duration': [],
-                             'score': []})
-    score_df.set_index(['peak', 'duration'], inplace=True)
-    peak_grid = range(int(0.5*peak_guess),
-                      int(1.5*peak_guess),
-                      int(0.025*peak_guess))
-    duration_grid = range(duration_guess-4, duration_guess+3)
-    for peak in peak_grid:
-        for duration in duration_grid:
-            sig_case_lst = []
-            for i in range(0, duration):
-                value = sig_pred_case(i, duration, peak, spread=spread)
-                sig_case_lst.append(value)
-
-            current_df = pd.DataFrame(sig_case_lst,
-                                      index=pd.date_range(start_str,
-                                                          periods=duration))
-
-            conc_df = pd.concat([df[start_str:], current_df], axis=1)
-            conc_df.columns = ['Actual', 'Prediction']
-            conc_df['residual'] = conc_df['Actual'] - conc_df['Prediction']
-            score = loss_function(conc_df['residual'], strategy=strategy)
-            score_df.loc[(peak, duration), 'score'] = score
-
-    best_peak, best_duration = score_df['score'].idxmin()
-    best_score = score_df.loc[(best_peak, best_duration), 'score']
-    return int(best_peak), int(best_duration), best_score
 
 
 class CovidCountry():
@@ -443,7 +261,7 @@ class CovidCountry():
         title_str += f'\nDuration: {best_duration:.0f}'
         title_str += f'\nPeak: {best_peak:.0f}\nR-squared: {r2:.3f}'
         if self.curve == 'gamma':
-            title_str += f'\nTheta: {self.best_theta:.3f}'
+            title_str += f'\nTheta: {self.best_theta:.2f}'
         plt.title(title_str)
         plt.tight_layout()
         plt.show()
