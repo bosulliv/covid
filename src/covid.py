@@ -23,9 +23,9 @@ def loss_function(series, strategy='rmse'):
     series = series.dropna()
     if series.shape[0] == 0:
         score = np.nan
-    elif abs(series.sum()) < 0.001:
-        print(series)
-        raise Exception('Zero residual sum not possible')
+    #elif abs(series.sum()) < 0.001:
+    #    print(series)
+    #    raise Exception('Zero residual sum not possible')
     elif strategy == 'mse':
         score = np.sum(series**2)
     elif strategy == 'rmse':
@@ -42,7 +42,7 @@ def loss_function(series, strategy='rmse'):
         score = np.sum(score)**0.5
     return score
 
-def gamma_pdf(x, k=10, theta=0.75):
+def gamma_pdf(x, mu=50, theta=1):
     """ A function with the same shape as the Gamma PDF. It returns y
     for a given x, and the shape parameters described.
     
@@ -51,12 +51,14 @@ def gamma_pdf(x, k=10, theta=0.75):
     x : int
         The x position to return y=gamma_pdf(y)
         
-    k : float
-        The mean
+    mu : float
+        The mean = k * theta. In the first spread, this would be
+        roughly half the total duration. And a little sooner with skew.
         
     theta : float
         The standard deviation
     """
+    k = mu / theta
     nearly_zero = 0.1**100
     if x == 0:
         x = nearly_zero
@@ -75,8 +77,9 @@ def gamma_pred_case(i, theta=0.75, duration=90, peak=160000, spread=20):
     case_total = 0
     scale = peak*spread/duration
     for x in np.linspace(0, x_final, i):
-        k = spread/(2*theta)
-        y = gamma_pdf(x=x, k=k, theta=theta)
+        mu = spread/2
+        #k = spread/(2*theta)
+        y = gamma_pdf(x=x, mu=mu, theta=theta)
         case_total += y*scale
     return case_total
 
@@ -121,13 +124,13 @@ def find_best_gamma_param(df,
                              'theta': [],
                              'score': []})
     score_df.set_index(['peak', 'duration', 'theta'], inplace=True)
-    peak_grid = range(int(0.5*peak_guess),
-                      int(1.5*peak_guess),
-                      int(0.125*peak_guess))
-    duration_grid = range(duration_guess-4,
-                          duration_guess+3,
+    peak_grid = np.linspace(int(0.75*peak_guess),
+                            int(1.25*peak_guess),
+                            10)
+    duration_grid = range(duration_guess-2,
+                          duration_guess+5,
                           1)
-    theta_grid = np.linspace(0.25, 1.75, 20)
+    theta_grid = np.linspace(0.25, 1.75, 10)
     for peak in peak_grid:
         for duration in duration_grid:
             for theta in theta_grid:
@@ -376,7 +379,7 @@ class CovidCountry():
                                            peak_guess=self.peak_guess,
                                            duration_guess=self.duration_guess,
                                            strategy='rmse',
-                                           spread=16)
+                                           spread=20)
             self.best_peak, self.best_duration, self.best_theta, self.best_score = values
 
     def predict(self):
@@ -455,10 +458,12 @@ class CovidCountry():
         plt.tight_layout()
         plt.show()
 
-    def save(self):
+    def save(self, filepath=None):
         """ Save the prediction file """
+        if not filepath:
+            filepath = self.path
         suffix = '_df.csv'
-        filename = self.path + self.iata_2 + suffix
+        filename = filepath + self.iata_2 + suffix
         self.pred_df.to_csv(filename)
 
 

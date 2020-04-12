@@ -42,6 +42,8 @@ Then run jupyter to explore the notebooks and raw data files:
 </pre>
 
 ## The Maths
-This is curve fitting, rather than virus transmission simulation. So the closer to peak, the easier it is to be accurate. Fitting a sigmoid curve works reasonably well as a country climbs towards a daily peak. But it fits badly when the peak passes, especially if a country has been effective in reducting transmission. In that case the curve is skewed, where the climb is steeper than the descent. This fits better with a function that shape of a gamma distribution function.
+This is curve fitting, rather than virus transmission simulation. Two curves have been used, sigmoid and gamma. I started with sigmoid because it is very simple and just has a single parameter. This was helpful in early March, because it was too early to know what a 'typical' curve might look like.
 
-The Gamma function fit is prototyped [here](notebooks/Skew%20Function.ipynb)
+However, some Countries are now passed their daily peak and it's clear the curve is skewed. A gamma function has two paramaters, one of which can tune the skew. Now we have a better idea of what 'typical' can look like, we can use a function with more degrees of freedom.
+
+This function fits much better, and is the now the default curve to fit.
