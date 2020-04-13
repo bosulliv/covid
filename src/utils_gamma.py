@@ -81,7 +81,7 @@ def find_best_gamma_param(df,
     duration_grid = range(duration_guess-2,
                           duration_guess+5,
                           1)
-    theta_grid = np.linspace(0.25, 1.75, 10)
+    theta_grid = np.linspace(0.25, 1.25, 11)
     for peak in peak_grid:
         for duration in duration_grid:
             for theta in theta_grid:

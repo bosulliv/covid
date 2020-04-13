@@ -129,7 +129,8 @@ class CovidCountry():
             idx = self.tidy_df['Province/State'] == self.country
         else:
             idx = self.tidy_df['Country/Region'] == self.country
-        self.country_df = self.tidy_df[idx].drop('index', axis=1)
+        df = self.tidy_df[idx].drop('index', axis=1)
+        self.country_df = df.resample('1D').sum()
 
     def _correct(self):
         """  Fix errors in data. """

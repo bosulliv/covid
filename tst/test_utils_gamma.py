@@ -64,7 +64,7 @@ class UtilsGammaFunctions(unittest.TestCase):
         # It just needs to be close
         self.assertLess(abs(peak-values[0]), peak*0.05)
         self.assertLess(abs(duration-values[1]), duration*0.05)
-        self.assertLess(abs(theta-values[2]), theta*0.1)
+        self.assertLess(abs(theta-values[2]), theta*0.2)
 
 
 if __name__ == '__main__':
