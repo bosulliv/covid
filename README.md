@@ -7,6 +7,7 @@ Individual countries are modeled and ploted here:
 * [Germany](notebooks/Germany.ipynb)
 * [Italy](notebooks/Italy.ipynb)
 * [Spain](notebooks/Spain.ipynb)
+* [Sweden](notebooks/Spain.ipynb)
 * [UK](notebooks/uk.ipynb)
 * [US](notebooks/US.ipynb)
 
