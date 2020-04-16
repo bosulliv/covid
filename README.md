@@ -3,7 +3,7 @@
 Explore the covid data. Fit simple models. Update as daily figures arrive, and reflect on the changes necessary to improve the model fit.
 
 ## Country Models
-My home couuntry, UK, is explored in the most detail. Including day of week patterns (mid-week = low, weekend = high):
+My home country, UK, is explored in the most detail. Including day of week patterns (mid-week = low, weekend = high):
 * [UK](notebooks/uk.ipynb)
 
 Other countries are modeled and ploted here:
