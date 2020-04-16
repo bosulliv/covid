@@ -3,7 +3,10 @@
 Explore the covid data. Fit simple models. Update as daily figures arrive, and reflect on the changes necessary to improve the model fit.
 
 ## Country Models
-Individual countries are modeled and ploted here:
+My home couuntry, UK, is explored in the most detail. Including day of week patterns (mid-week = low, weekend = high):
+* [UK](notebooks/uk.ipynb)
+
+Other countries are modeled and ploted here:
 * [Australia](notebooks/Australia.ipynb)
 * [France](notebooks/France.ipynb)
 * [Germany](notebooks/Germany.ipynb)
@@ -11,7 +14,6 @@ Individual countries are modeled and ploted here:
 * [Romania](notebooks/Romania.ipynb)
 * [Spain](notebooks/Spain.ipynb)
 * [Sweden](notebooks/Spain.ipynb)
-* [UK](notebooks/uk.ipynb)
 * [US](notebooks/US.ipynb)
 
 These countries are then compared here:
