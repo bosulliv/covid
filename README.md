@@ -48,8 +48,8 @@ Then run jupyter to explore the notebooks and raw data files:
 </pre>
 
 ## The Maths
-This is curve fitting, rather than virus transmission simulation. Two curves have been used, sigmoid and gamma. I started with sigmoid because it is very simple and just has a single parameter. This was helpful in early March, because it was too early to know what a 'typical' curve might look like.
+This is curve fitting, rather than virus transmission simulation. Two curves have been used, Sigmoid and Gamma. I started with sigmoid because it is tuned with a single parameter, which makes it simple. This was helpful in early March, because it was too early to know what a 'typical' curve might look like - and therefore it is easy to overfit with more complicated models when you are training it with a fraction of the expected data points.
 
-However, some Countries are now passed their daily peak and it's clear the curve is skewed. A gamma function has two paramaters, one of which can tune the skew. Now we have a better idea of what 'typical' can look like, we can use a function with more degrees of freedom.
+Once countries pass their peak, it is clear the curves are steep on the climb and much less steep on the descent. This is called skew. The sigmoid is a symetrical version of the cumulative Gamma function. But if we use a pure Gamma distribution function, we can also tune the skew. Now we have a better idea of what the 'typical' can look like, we can use a function with more degrees of freedom.
 
 This function fits much better, and is the now the default curve to fit.
