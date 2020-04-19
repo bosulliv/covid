@@ -13,7 +13,7 @@ Other countries are modeled and ploted here:
 * [Italy](notebooks/Italy.ipynb)
 * [Romania](notebooks/Romania.ipynb)
 * [Spain](notebooks/Spain.ipynb)
-* [Sweden](notebooks/Spain.ipynb)
+* [Sweden](notebooks/Sweden.ipynb)
 * [US](notebooks/US.ipynb)
 
 These countries are then compared here:
