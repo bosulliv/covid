@@ -47,6 +47,12 @@ Then run jupyter to explore the notebooks and raw data files:
 (covid) $ jupyter notebook
 </pre>
 
+You can update all the notebooks at once with the repo shell script. It will take about 10 minutes:
+<pre>
+(covid) $ chmod a+x src/run_all.sh
+(covid) $ ./src/run_all.sh
+</pre>
+
 ## The Maths
 This is curve fitting, rather than virus transmission simulation. Two curves have been used, Sigmoid and Gamma. I started with sigmoid because it is tuned with a single parameter, which makes it simple. This was helpful in early March, because it was too early to know what a 'typical' curve might look like - and therefore it is easy to overfit with more complicated models when you are training it with a fraction of the expected data points.
 
