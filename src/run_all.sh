@@ -1,7 +1,7 @@
 #!/bin/bash
 
 compfile=./notebooks/Comparison.ipynb
-skewfilw=./notebooks/Skew Function.ipynb
+skewfilw=./notebooks/Skew\ Function.ipynb
 to=120
 
 for file in $(ls ./notebooks/*.ipynb)
