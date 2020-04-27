@@ -60,8 +60,8 @@ If you want to add this to cron, the provided venv environment works much better
 <pre>
 $ crontab -l
 SHELL=/bin/bash
-1 7 * * * cd ~/Documents/Code/python/covid ; ./src/run_all.sh
-1 20 * * * cd ~/Documents/Code/python/covid ; ./src/run_all.sh
+1 7 * * * cd /Users/Brian/Documents/Code/python/covid ; ./src/run_all_cron.sh
+1 20 * * * cd /Users/Brian/Documents/Code/python/covid ; ./src/run_all_cron.sh
 </pre>
 
 ## The Maths
