@@ -55,6 +55,15 @@ You can update all the notebooks at once with the repo shell script. It will tak
 (covid) $ ./src/run_all.sh
 </pre>
 
+If you want to add this to cron, the provided venv environment works much better with cron. Grafting conda into a shell started by cron is not elegant of robust. Here is my crontab, on OSX:
+
+<pre>
+$ crontab -l
+SHELL=/bin/bash
+1 7 * * * cd ~/Documents/Code/python/covid ; ./src/run_all.sh
+1 20 * * * cd ~/Documents/Code/python/covid ; ./src/run_all.sh
+</pre>
+
 ## The Maths
 This is curve fitting, rather than virus transmission simulation. Two curves have been used, Sigmoid and Gamma. I started with sigmoid because it is tuned with a single parameter, which makes it simple. This was helpful in early March, because it was too early to know what a 'typical' curve might look like - and therefore it is easy to overfit with more complicated models when you are training it with a fraction of the expected data points.
 
