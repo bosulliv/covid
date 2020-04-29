@@ -18,8 +18,13 @@ done
 # Do the comparison after all files
 ~/anaconda3/bin/jupyter nbconvert --to notebook --execute --ExecutePreprocessor.timeout=$t_o --inplace $compfile
 
-git add .
-git commit -m 'cron update'
-git push
+# Author convenience: git commit if git_commit file is present
+if [ -e git_commit ]
+then
+  ssh-add ~/.ssh/cron_ssh &>/dev/null
+  git add .
+  git commit -m 'cron update'
+  git push
+fi
 
 deactivate
