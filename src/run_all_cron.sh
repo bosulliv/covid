@@ -3,7 +3,7 @@
 . covid_env/bin/activate
 
 compfile=./notebooks/Comparison.ipynb
-skewfilw=./notebooks/Skew\ Function.ipynb
+skewfilw=./notebooks/SkewFunction.ipynb
 t_o=300
 
 for file in $(ls ./notebooks/*.ipynb)
