@@ -101,7 +101,7 @@ class CovidCountry():
 
         if df.shape[1] != col_count:
             raise ValueError('More columns than expected')
-        if df.shape[0] != 264:
+        if df.shape[0] != 266:
             raise ValueError(f'More rows than expected. {df.shape}')
         self.raw_df = df
 
