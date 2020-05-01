@@ -3,11 +3,11 @@ Spain,True,2020-02-17,250000,95,47,es,gamma
 US,False,2020-02-20,1300000,115,327,us,gamma
 Italy,False,2020-02-10,230000,108,60,it,gamma
 France,True,2020-02-23,160000,85,67,fr,gamma
-Netherlands,True,2020-02-26,50000,95,17,nd,gamma
 United Kingdom,True,2020-02-22,226000,115,66,gb,gamma
+Netherlands,True,2020-02-26,50000,95,17,nd,gamma
+Sweden,False,2020-02-13,30000,140,10,se,gamma
 Germany,False,2020-02-15,170000,98,80,de,gamma
 Denmark,True,2020-02-26,13000,105,5.8,dk,gamma
-Sweden,False,2020-02-13,30000,140,10,se,gamma
 Romania,False,2020-02-27,16000,100,19,ro,gamma
 Australia,False,2020-02-29,7000,55,25,au,gamma
 Singapore,True,2020-01-01,20000,230,5.8,sn,gamma
