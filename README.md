@@ -8,11 +8,14 @@ My home country, UK, is explored in the most detail. Including day of week patte
 
 Other countries are modeled and ploted here:
 * [Australia](notebooks/Australia.ipynb)
+* [Brazil](notebooks/Brazil.ipynb)
 * [France](notebooks/France.ipynb)
 * [Germany](notebooks/Germany.ipynb)
+* [India](notebooks/India.ipynb)
 * [Italy](notebooks/Italy.ipynb)
 * [Netherlands](notebooks/Netherlands.ipynb)
 * [Romania](notebooks/Romania.ipynb)
+* [Russia](notebooks/Russia.ipynb)
 * [Singapore](notebooks/Singapore.ipynb)
 * [Spain](notebooks/Spain.ipynb)
 * [Sweden](notebooks/Sweden.ipynb)
