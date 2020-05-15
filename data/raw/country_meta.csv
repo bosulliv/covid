@@ -5,9 +5,12 @@ United Kingdom,True,2020-02-22,260000,120,66,gb,gamma,True
 Italy,False,2020-02-10,235000,110,60,it,gamma,True
 France,True,2020-02-23,160000,85,67,fr,gamma,False
 Netherlands,True,2020-02-26,50000,95,17,nd,gamma,False
+Russia,False,2020-03-04,600000,150,146,ru,gamma,True
 Sweden,False,2020-02-13,30000,140,10,se,gamma,True
-Germany,False,2020-02-15,175000,100,80,de,gamma,True
+Germany,False,2020-02-15,185000,103,80,de,gamma,True
 Denmark,True,2020-02-26,13000,105,5.8,dk,gamma,False
+Brazil,False,2020-02-25,600000,170,210,br,gamma,True
 Romania,False,2020-02-27,16000,100,19,ro,gamma,True
 Australia,False,2020-02-29,7000,55,25,au,gamma,True
-Singapore,True,2020-01-01,20000,230,5.8,sn,gamma,True
+Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,True
+India,False,2020-03-01,250000,165,1380,in,gamma,True
