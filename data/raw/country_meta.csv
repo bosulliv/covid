@@ -9,7 +9,7 @@ Russia,False,2020-03-04,600000,150,146,ru,gamma,True
 Sweden,False,2020-02-13,45000,154,10,se,gamma,True
 Germany,False,2020-02-15,185000,103,80,de,gamma,True
 Denmark,True,2020-02-26,13000,105,5.8,dk,gamma,False
-Brazil,False,2020-02-25,600000,185,210,br,gamma,True
+Brazil,False,2020-02-25,1250000,190,210,br,gamma,True
 Romania,False,2020-02-27,21000,115,19,ro,gamma,True
 Australia,False,2020-02-29,7000,55,25,au,gamma,True
 Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,True
