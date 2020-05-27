@@ -4,7 +4,7 @@
 
 compfile=./notebooks/Comparison.ipynb
 skewfile=./notebooks/SkewFunction.ipynb
-t_o=360
+t_o=600
 
 for file in $(ls ./notebooks/*.ipynb)
 do
