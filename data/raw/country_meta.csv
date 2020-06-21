@@ -1,16 +1,16 @@
 country,province,start_str,peak_guess,duration_guess,population,iata_2,curve,compare
-Spain,True,2020-02-17,250000,95,47,es,gamma,True
-US,False,2020-02-20,2000000,135,327,us,gamma,True
-United Kingdom,True,2020-02-22,300000,130,66,gb,gamma,True
-Italy,False,2020-02-10,240000,113,60,it,gamma,True
+Spain,True,2020-02-17,250000,95,47,es,gamma,flat
+US,False,2020-02-20,2000000,135,327,us,gamma,growing
+United Kingdom,True,2020-02-22,310000,135,66,gb,gamma,flat
+Italy,False,2020-02-10,240000,113,60,it,gamma,flat
 France,True,2020-02-23,160000,85,67,fr,gamma,False
 Netherlands,True,2020-02-26,50000,95,17,nd,gamma,False
-Russia,False,2020-03-04,600000,150,146,ru,gamma,True
-Sweden,False,2020-02-13,45000,154,10,se,gamma,True
-Germany,False,2020-02-15,185000,103,80,de,gamma,True
+Russia,False,2020-03-04,900000,179,146,ru,gamma,growing
+Sweden,False,2020-02-13,100000,230,10,se,gamma,growing
+Germany,False,2020-02-15,185000,103,80,de,gamma,flat
 Denmark,True,2020-02-26,13000,105,5.8,dk,gamma,False
-Brazil,False,2020-02-25,1250000,190,210,br,gamma,True
-Romania,False,2020-02-27,21000,115,19,ro,gamma,True
-Australia,False,2020-02-29,7000,55,25,au,gamma,True
-Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,True
-India,False,2020-03-01,300000,175,1380,in,gamma,True
+Brazil,False,2020-02-25,2500000,243,210,br,gamma,growing
+Romania,False,2020-02-27,21000,115,19,ro,gamma,growing
+Australia,False,2020-02-29,7000,55,25,au,gamma,flat
+Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,growing
+India,False,2020-03-01,1500000,258,1380,in,gamma,growing
