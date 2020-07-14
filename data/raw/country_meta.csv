@@ -11,6 +11,6 @@ Germany,False,2020-02-15,185000,103,80,de,gamma,flat
 Denmark,True,2020-02-26,13000,105,5.8,dk,gamma,False
 Brazil,False,2020-02-25,2500000,243,210,br,gamma,growing
 Romania,False,2020-02-27,21000,115,19,ro,gamma,growing
-Australia,False,2020-02-29,7000,55,25,au,gamma,flat
-Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,growing
+Australia,False,2020-02-29,7000,55,25,au,gamma,growing
+Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,flat
 India,False,2020-03-01,1500000,258,1380,in,gamma,growing
