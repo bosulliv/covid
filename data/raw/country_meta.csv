@@ -1,5 +1,5 @@
 country,province,start_str,peak_guess,duration_guess,population,iata_2,curve,compare
-Spain,True,2020-02-17,250000,95,47,es,gamma,flat
+Spain,True,2020-02-17,250000,95,47,es,gamma,growing
 US,False,2020-02-20,2000000,135,327,us,gamma,growing
 United Kingdom,True,2020-02-22,310000,135,66,gb,gamma,flat
 Italy,False,2020-02-10,240000,113,60,it,gamma,flat
@@ -12,5 +12,5 @@ Denmark,True,2020-02-26,13000,105,5.8,dk,gamma,False
 Brazil,False,2020-02-25,2500000,243,210,br,gamma,growing
 Romania,False,2020-02-27,21000,115,19,ro,gamma,growing
 Australia,False,2020-02-29,7000,55,25,au,gamma,growing
-Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,flat
+Singapore,True,2020-01-01,50000,230,5.8,sn,gamma,growing
 India,False,2020-03-01,1500000,258,1380,in,gamma,growing
