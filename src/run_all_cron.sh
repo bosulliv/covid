@@ -22,6 +22,7 @@ done
 if [ -e git_commit ]
 then
   ssh-add ~/.ssh/cron_ssh &>/dev/null
+  git pull
   git add .
   git commit -m 'cron update'
   git push
