@@ -1,3 +1,5 @@
+[![OpenSSF Scorecard](htt‌ps://api.securityscorecards.dev/projects/github.com/bosulliv/covid/badge)](htt‌ps://securityscorecards.dev/viewer/?uri=github.com/bosulliv/covid)
+
 # Covid
 ## Overview
 Explore the covid data. Fit simple models. Update as daily figures arrive, and reflect on the changes necessary to improve the model fit.
