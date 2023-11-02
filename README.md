@@ -1,5 +1,5 @@
 [![openssf scorecards](https://api.securityscorecards.dev/projects/github.com/coreinfrastructure/best-practices-badge/badge)](https://api.securityscorecards.dev/projects/github.com/coreinfrastructure/best-practices-badge)
-[![OpenSSF Scorecard](htt‌ps://api.securityscorecards.dev/projects/github.com/bosulliv/covid/badge)](htt‌ps://securityscorecards.dev/viewer/?uri=github.com/bosulliv/covid)
+[![OpenSSF Scorecard](htt‌ps://api.securityscorecards.dev/projects/github.com/bosulliv/covid/badge)](https://api.securityscorecards.dev/projects/github.com/bosulliv/covid)
 [![Scorecard supply-chain security](https://github.com/bosulliv/covid/actions/workflows/scorecard.yml/badge.svg)](https://github.com/bosulliv/covid/actions/workflows/scorecard.yml)
 
 # Covid
